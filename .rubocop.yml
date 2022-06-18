@@ -1,1 +1,11 @@
 inherit_from: .rubocop_todo.yml
+
+AllCops:
+  NewCops: enable # 新しい設定を導入する
+  # 自動生成されるファイルを除外
+  Exclude:
+    - 'bin/**/*'
+    - "config/**/*"
+    - "db/**/*"
+    - "node_modules/**/*"
+    - 'vendor/**/*'
