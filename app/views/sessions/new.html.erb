@@ -1,0 +1,9 @@
+<%= form_with url: '/login/create', method: :post do |form| %>
+  <%= form.label :email, 'メールアドレス' %>
+  <%= form.text_field :email %>
+  <br>
+  <%= form.label :password, 'パスワード' %>
+  <%= form.text_field :password %>
+  <br>
+  <%= form.submit 'ログイン' %>
+<% end %>
