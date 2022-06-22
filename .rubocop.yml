@@ -7,3 +7,6 @@ AllCops:
     - 'db/**/*'
     - 'node_modules/**/*'
     - 'vendor/**/*'
+
+Style/RegexpLiteral:
+  EnforcedStyle: parcent_r
