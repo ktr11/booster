@@ -11,6 +11,7 @@ RSpec.describe 'home', type: :request do
       get '/'
       expect(response).to have_http_status(200)
       expect(response.body).to match(%r{<title>#{title_top}</title>})
+      expect(response.body).to match(%r{booster})
       expect(response.body).to match(%r{ログイン})
       expect(response.body).to match(%r{新規登録})
       expect(response.body).to match(%r{ゲストログイン})
