@@ -37,6 +37,7 @@ RSpec.describe 'Sessions', type: :request do
       expect(response).to have_http_status(200)
       expect(response.body).to include('メールアドレスとパスワードが一致しません')
       expect(session[:user_id]).to eq nil
+      expect(response.body).to_not include('ログイン済')
     end
   end
 end
