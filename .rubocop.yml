@@ -9,4 +9,4 @@ AllCops:
     - 'vendor/**/*'
 
 Style/RegexpLiteral:
-  EnforcedStyle: parcent_r
+  EnforcedStyle: percent_r
