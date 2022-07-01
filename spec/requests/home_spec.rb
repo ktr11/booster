@@ -18,7 +18,7 @@ RSpec.describe 'home', type: :request do
       expect(response.body).to_not include('プロフィール</a>')
     end
     it 'get top ログイン済みの場合' do
-      post '/login/create', params: { email: 'hoge@example.com', password: 'password1' }
+      login_as(user)
       get '/'
       expect(response).to have_http_status(200)
       expect(response.body).to include("<title>#{title_top}</title>")
