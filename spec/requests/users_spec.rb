@@ -106,4 +106,65 @@ RSpec.describe 'Users', type: :request do
       expect(response.body).to include(user.name)
     end
   end
+  # ユーザー編集画面初期表示
+  describe 'GET /users/edit/{user_id}' do
+    it 'ユーザー編集画面表示、200であり、必要な情報が表示されていればOK' do
+      user = create(:user)
+      login_as(user)
+      get "/users/#{user.id}/edit"
+      expect(response).to have_http_status(200)
+      expect(response.body).to include(user.name)
+      expect(response.body).to include(user.email)
+      expect(response.body).to include('ユーザー名')
+      expect(response.body).to include('メールアドレス')
+      expect(response.body).to include('パスワード')
+      expect(response.body).to include('パスワード(確認)')
+    end
+    it 'ユーザー編集画面表示、ログイン中ユーザーでない場合、rootにリダイレクト' do
+      user1 = create(:user)
+      user2 = create(:user)
+      login_as(user1)
+      get "/users/#{user2.id}/edit"
+      is_expected.to redirect_to('/')
+    end
+  end
+  # ユーザー更新
+  describe 'PATCH /users/{user_id}' do
+    it 'ユーザー更新処理、200であり、必要な情報が表示されていればOK' do
+      user = create(:user)
+      login_as(user)
+      patch "/users/#{user.id}/",
+            params: {
+              user: {
+                name: 'geho',
+                email: 'geho@example.com',
+                password: 'password2',
+                password_confirmation: 'password2'
+              }
+            }
+      expect(response).to have_http_status(302)
+      is_expected.to redirect_to("/users/#{user.id}")
+      get "/users/#{user.id}"
+      expect(response.body).to include('geho')
+      expect(response.body).to include('ユーザー名')
+      # 新しいemailとpasswordでログインできること。
+      post '/login/create', params: { email: 'geho@example.com', password: 'password2' }
+      is_expected.to redirect_to('/')
+    end
+    it 'ユーザー更新処理、ログイン中ユーザーでない場合、rootにリダイレクト' do
+      user1 = create(:user)
+      user2 = create(:user)
+      login_as(user1)
+      patch "/users/#{user2.id}/",
+            params: {
+              user: {
+                name: 'geho',
+                email: 'geho@example.com',
+                password: 'password2',
+                password_confirmation: 'password2'
+              }
+            }
+      is_expected.to redirect_to('/')
+    end
+  end
 end
