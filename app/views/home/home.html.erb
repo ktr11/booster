@@ -1,11 +1,11 @@
 <% if logged_in? %>
- <div>
-  <p>ログイン済</p>
-</div>
+  <div>
+    <p>ログイン済</p>
+  </div>
 <% else %>
- <div>
+  <div>
     <p>boosterを利用しよう！</p>
-    <%= link_to '新規登録todo', root_path %>
-    <%= link_to 'ゲストログインtodo', root_path %>
+    <%= link_to '新規登録', signup_path %>
+    <%= link_to 'todoゲストログイン', root_path %>
   </div>
 <% end %>
