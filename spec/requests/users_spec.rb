@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
+  # ユーザー登録画面初期表示
   describe 'GET /signup/' do
     it '200になり想定どおりの文字列が含まれる' do
       get '/signup/'
@@ -13,6 +14,7 @@ RSpec.describe 'Users', type: :request do
       expect(response.body).to include('パスワード(確認)')
     end
   end
+  # ユーザー登録画面登録処理
   describe 'POST /signup/' do
     it 'name,email,passwordが正しい場合、User登録成功' do
       user_count = User.count
@@ -93,6 +95,15 @@ RSpec.describe 'Users', type: :request do
       expect(session[:user_id]).to eq nil
       expect(response.body).to include('パスワード(確認)とパスワードの入力が一致しません')
       expect(user_count).to eq User.count
+    end
+  end
+  # ユーザー詳細画面初期表示
+  describe 'GET /users/{user_id}' do
+    it 'ユーザー詳細画面表示、200であり、必要な情報が表示されていればOK' do
+      user = create(:user)
+      get "/users/#{user.id}"
+      expect(response).to have_http_status(200)
+      expect(response.body).to include(user.name)
     end
   end
 end
