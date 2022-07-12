@@ -6,7 +6,7 @@ jobs:
       - image: circleci/ruby:3.0.2-node
         environment:
           RAILS_ENV: test
-          DATABASE_HOST: 127.0.0.1 
+          DATABASE_HOST: db
       - image: circleci/mysql:5.7
         environment:
           MYSQL_ROOT_PASSWORD: password
