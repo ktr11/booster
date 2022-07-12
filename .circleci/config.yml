@@ -11,8 +11,8 @@ jobs:
         environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: true
           MYSQL_ROOT_PASSWORD: ''
-          MYSQL_DATABASE: circleci_parctice_test
-    working_directory: ~/circleci_parctice
+          MYSQL_DATABASE: booster_test
+    working_directory: ~/booster
     steps:
       - checkout
       - run:
