@@ -1,6 +1,22 @@
-version: 2
+version: 2.1
 
 jobs:
+  build:
+    docker:
+      - image: circleci/ruby:3.0.2-node
+        environment:
+          RAILS_ENV: test
+          DATABASE_HOST: 127.0.0.1 
+      - image: circleci/mysql:5.7
+        environment:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: booster_test
+    steps:
+      - checkout
+      - run:
+          name: "bundle install"
+          command: bundle install
+
   test:
     docker:
       - image: circleci/ruby:3.0.2-node
@@ -11,12 +27,8 @@ jobs:
         environment:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: booster_test
-    working_directory: ~/booster
     steps:
       - checkout
-      - run:
-          name: "bundle install"
-          command: bundle install
       # MySQLと接続できるまで待ちます
       - run:
           name: "waiting DB start"
@@ -31,7 +43,10 @@ jobs:
           command: bundle exec rspec
 
 workflows:
-  version: 2
-  workflows:
+  version: 2.1
+  build_and_test:
     jobs:
-      - test
+      - build
+      - test:
+          requires:
+            - build
