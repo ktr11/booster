@@ -6,8 +6,8 @@ jobs:
       - image: circleci/ruby:3.0.2-node
         environment:
           RAILS_ENV: test
-          DATABASE_HOST: 127.0.0.1 
       - image: circleci/mysql:5.7
+        name: db
         environment:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: booster_test
