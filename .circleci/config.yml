@@ -14,22 +14,19 @@ jobs:
           MYSQL_DATABASE: booster_test
     steps:
       - checkout
-    bundle_dependencies:
-      executor:
-        name: default_container
-      steps:
-        - restore_cache:
-            key: v1 -dependencies-{{ checksum "Gemfile.lock" }}
-        - run:
-            name: Bundler install
-            command: gem install bundler
-        - run:
-            name: Bundle Install Dependencies
-            command: bundle install
-        - save_cache:
-            key: v1 -dependencies-{{ checksum "Gemfile.lock" }}
-            paths:
-              - vendor/bundle
+      - restore_cache:
+          key: v1 -dependencies-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Bundler install
+          command: gem install bundler
+      - run:
+          name: Bundle Install Dependencies
+          command: bundle install
+      - save_cache:
+          key: v1 -dependencies-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
   test:
     docker:
       - image: cimg/ruby:3.0.2-node
