@@ -16,7 +16,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v1 -dependencies-{{ checksum "Gemfile.lock" }}
+          key: v2 -dependencies-{{ checksum "Gemfile.lock" }}
       - run:
           name: Bundler install
           command: gem install bundler
@@ -24,7 +24,7 @@ jobs:
           name: Bundle Install Dependencies
           command: bundle install
       - save_cache:
-          key: v1 -dependencies-{{ checksum "Gemfile.lock" }}
+          key: v2 -dependencies-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
 
