@@ -6,6 +6,7 @@ jobs:
       - image: cimg/ruby:3.0.2-node
         environment:
           RAILS_ENV: test
+          BUNDLE_PATH: vendor/bundle
       - image: circleci/mysql:5.7
         name: db
         environment:
@@ -13,10 +14,22 @@ jobs:
           MYSQL_DATABASE: booster_test
     steps:
       - checkout
-      - run:
-          name: "bundle install"
-          command: bundle install
-
+    bundle_dependencies:
+      executor:
+        name: default_container
+      steps:
+        - restore_cache:
+            key: v1 -dependencies-{{ checksum "Gemfile.lock" }}
+        - run:
+            name: Bundler install
+            command: gem install bundler
+        - run:
+            name: Bundle Install Dependencies
+            command: bundle install
+        - save_cache:
+            key: v1 -dependencies-{{ checksum "Gemfile.lock" }}
+            paths:
+              - vendor/bundle
   test:
     docker:
       - image: cimg/ruby:3.0.2-node
