@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  heroku: circleci/heroku@1.2.6
+
 commands:
   bundle_install_with_cache:
     steps:
@@ -47,4 +50,14 @@ jobs:
           name: RSpec
           command: bundle exec rspec
 
-
+workflows:
+  build-and-heroku-deploy:
+    jobs:
+      - build
+      - heroku/deploy-via-git:
+          requires:
+            - build
+          filters:
+            branches:
+              only: issue39-heroku-auto-deploy
+          
