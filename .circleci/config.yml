@@ -59,5 +59,4 @@ workflows:
             - build
           filters:
             branches:
-              only: issue39-heroku-auto-deploy
-          
+              only: master
