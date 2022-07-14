@@ -33,20 +33,7 @@ jobs:
           MYSQL_DATABASE: booster_test
     steps:
       - checkout
-      - restore_cache:
-          key: z1 -dependencies-{{ checksum "Gemfile.lock" }}
-      - run:
-          name: Bundler install
-          command: gem install bundler
-      - run:
-          name: Bundle Install Dependencies
-          command: |
-            bundle config set --local path 'vendor/bundle'
-            bundle install
-      - save_cache:
-          key: z1 -dependencies-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
+      - bundle_install_with_cache
 
   test:
     working_directory: ~/booster
