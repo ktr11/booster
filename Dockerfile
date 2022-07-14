@@ -10,6 +10,7 @@ WORKDIR /booster
 COPY Gemfile /booster/Gemfile
 COPY Gemfile.lock /booster/Gemfile.lock
 RUN gem install bundler
+RUN bundle config set --local path 'vendor/bundle'
 RUN bundle install
 COPY . /booster
 COPY entrypoint.sh /usr/bin/

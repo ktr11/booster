@@ -1,0 +1,50 @@
+version: 2.1
+
+commands:
+  bundle_install_with_cache:
+    steps:
+      - restore_cache:
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Bundler install
+          command: gem install bundler
+      - run:
+          name: Bundle Install Dependencies
+          command: |
+            bundle config set --local path 'vendor/bundle'
+            bundle install
+      - save_cache:
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+jobs:
+  build:
+    working_directory: ~/booster
+    docker:
+      - image: cimg/ruby:3.0.2-node
+        environment:
+          - RAILS_ENV: test
+          - BUNDLE_PATH: vendor/bundle
+          - MYSQL_HOST: db
+          - MYSQL_PASSWORD: password
+          - MYSQL_PORT: 3306
+      - image: cimg/mysql:5.7
+        name: db
+        environment:
+          - MYSQL_ROOT_PASSWORD: password
+          - MYSQL_DATABASE: booster_test
+          - MYSQL_HOST: db
+    steps:
+      - checkout
+      - bundle_install_with_cache
+      - run:
+          name: "initialize DB"
+          command: |
+            bundle exec rails db:create
+            bundle exec rails db:migrate
+      - run:
+          name: RSpec
+          command: bundle exec rspec
+
+
