@@ -24,13 +24,17 @@ jobs:
     docker:
       - image: cimg/ruby:3.0.2-node
         environment:
-          RAILS_ENV: test
-          BUNDLE_PATH: vendor/bundle
+          - RAILS_ENV: test
+          - BUNDLE_PATH: vendor/bundle
+          - MYSQL_HOST: db
+          - MYSQL_PASSWORD: password
+          - MYSQL_PORT: 3306
       - image: cimg/mysql:5.7
         name: db
         environment:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: booster_test
+          - MYSQL_ROOT_PASSWORD: password
+          - MYSQL_DATABASE: booster_test
+          - MYSQL_HOST: db
     steps:
       - checkout
       - bundle_install_with_cache
@@ -40,18 +44,20 @@ jobs:
     docker:
       - image: cimg/ruby:3.0.2-node
         environment:
-          RAILS_ENV: test
-          DATABASE_HOST: 127.0.0.1 
+          - RAILS_ENV: test
+          - BUNDLE_PATH: vendor/bundle
+          - RAILS_ENV: test
+          - MYSQL_HOST: db
+          - MYSQL_PASSWORD: password
+          - MYSQL_PORT: 3306
       - image: cimg/mysql:5.7
+        name: db
         environment:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: booster_test
+          - MYSQL_ROOT_PASSWORD: password
+          - MYSQL_DATABASE: booster_test
+          - MYSQL_HOST: db
     steps:
       - checkout
-      # MySQLと接続できるまで待ちます
-      - run:
-          name: "waiting DB start"
-          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
       - bundle_install_with_cache
       - run:
           name: "initialize DB"
