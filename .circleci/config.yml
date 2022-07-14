@@ -1,5 +1,23 @@
 version: 2.1
 
+commands:
+  bundle_install_with_cache:
+    steps:
+      - restore_cache:
+          key: z1 -dependencies-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Bundler install
+          command: gem install bundler
+      - run:
+          name: Bundle Install Dependencies
+          command: |
+            bundle config set --local path 'vendor/bundle'
+            bundle install
+      - save_cache:
+          key: z1 -dependencies-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
 jobs:
   build:
     working_directory: ~/booster
@@ -47,20 +65,7 @@ jobs:
       - run:
           name: "waiting DB start"
           command: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
-      - restore_cache:
-          key: z1 -dependencies-{{ checksum "Gemfile.lock" }}
-      - run:
-          name: Bundler install
-          command: gem install bundler
-      - run:
-          name: Bundle Install Dependencies
-          command: |
-            bundle config set --local path 'vendor/bundle'
-            bundle install
-      - save_cache:
-          key: z1 -dependencies-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
+      - bundle_install_with_cache
       - run:
           name: "initialize DB"
           command: |
