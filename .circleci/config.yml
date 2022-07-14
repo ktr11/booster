@@ -38,27 +38,6 @@ jobs:
     steps:
       - checkout
       - bundle_install_with_cache
-
-  test:
-    working_directory: ~/booster
-    docker:
-      - image: cimg/ruby:3.0.2-node
-        environment:
-          - RAILS_ENV: test
-          - BUNDLE_PATH: vendor/bundle
-          - RAILS_ENV: test
-          - MYSQL_HOST: db
-          - MYSQL_PASSWORD: password
-          - MYSQL_PORT: 3306
-      - image: cimg/mysql:5.7
-        name: db
-        environment:
-          - MYSQL_ROOT_PASSWORD: password
-          - MYSQL_DATABASE: booster_test
-          - MYSQL_HOST: db
-    steps:
-      - checkout
-      - bundle_install_with_cache
       - run:
           name: "initialize DB"
           command: |
@@ -68,11 +47,4 @@ jobs:
           name: RSpec
           command: bundle exec rspec
 
-workflows:
-  version: 2.1
-  build_and_test:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
+
