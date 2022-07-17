@@ -22,9 +22,13 @@ services:
       - chrome
     stdin_open: true
     tty: true
+    environment:
+      TZ: "Asia/Tokyo"
   chrome:
     image: selenium/standalone-chrome:3.141.59-dubnium
     ports:
       - 4444:4444
+    environment:
+      TZ: "Asia/Tokyo"
 volumes:
   bundle:
