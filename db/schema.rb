@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_23_072612) do
+ActiveRecord::Schema.define(version: 2022_07_20_022554) do
+
+  create_table "plans", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "title"
+    t.text "content"
+    t.boolean "all_day"
+    t.datetime "start_datetime"
+    t.datetime "end_datetime"
+    t.integer "actual_time"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "email"
