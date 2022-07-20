@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(version: 2022_07_20_022554) do
 
   create_table "plans", charset: "utf8mb4", force: :cascade do |t|
-    t.integer "user_id"
+    t.bigint "user_id", null: false
     t.string "title"
     t.text "content"
     t.boolean "all_day"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2022_07_20_022554) do
     t.integer "actual_time"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_plans_on_user_id"
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
@@ -39,4 +40,5 @@ ActiveRecord::Schema.define(version: 2022_07_20_022554) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "plans", "users"
 end
