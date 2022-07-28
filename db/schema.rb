@@ -17,8 +17,10 @@ ActiveRecord::Schema.define(version: 2022_07_20_022554) do
     t.string "title"
     t.text "content"
     t.boolean "all_day"
-    t.datetime "start_datetime", precision: 6
-    t.datetime "end_datetime", precision: 6
+    t.date "start_date"
+    t.time "start_time"
+    t.date "end_date"
+    t.time "end_time"
     t.integer "actual_time"
     t.boolean "done", default: false
     t.datetime "created_at", precision: 6, null: false

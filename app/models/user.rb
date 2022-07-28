@@ -3,6 +3,7 @@
 # usersテーブルに関するmodelファイル
 class User < ApplicationRecord
   before_save :downcase_email
+  has_many :plans, dependent: :destroy
   # name のvalidation
   validates(:name, presence: true)
   # email の validation

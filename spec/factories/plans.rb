@@ -9,8 +9,10 @@ FactoryBot.define do
     title { 'hoge' }
     content { 'hogehoge' }
     all_day { false }
-    start_datetime { now_hour.strftime('%Y/%m/%d %H:%M:%S') }
-    end_datetime { (now_hour + 2.hour).strftime('%Y/%m/%d %H:%M:%S') }
+    start_date { now_hour.strftime('%Y/%m/%d') }
+    start_time { now_hour.strftime('%H:%M:%S') }
+    end_date { (now_hour + 2.hour).strftime('%Y/%m/%d') }
+    end_time { (now_hour + 2.hour).strftime('%H:%M:%S') }
     actual_time { 0 }
   end
 end
