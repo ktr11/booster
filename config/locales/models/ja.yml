@@ -2,9 +2,18 @@ ja:
   activerecord:
     models:
       user: ユーザー
+      plan: 予定
     attributes:
       user:
         name: ユーザー名
         email: メールアドレス
         password: パスワード
         password_confirmation: パスワード(確認)
+      plan:
+        title: タイトル
+        content: 内容
+        all_day: 終日
+        start_datetime: 開始日時
+        end_datetime: 終了日時
+        actual_time: 実績時間
+        done: 実施済
