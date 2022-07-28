@@ -17,9 +17,10 @@ ActiveRecord::Schema.define(version: 2022_07_20_022554) do
     t.string "title"
     t.text "content"
     t.boolean "all_day"
-    t.datetime "start_datetime"
-    t.datetime "end_datetime"
+    t.datetime "start_datetime", precision: 6
+    t.datetime "end_datetime", precision: 6
     t.integer "actual_time"
+    t.boolean "done", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_plans_on_user_id"
