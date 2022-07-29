@@ -1,0 +1,26 @@
+<%= form_with model: @plan, url: yield(:form_url), method: yield(:method) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+    <%= f.label :title, 'タイトル' %>
+    <%= f.text_field :title, class: 'form-control' %>
+    <br>
+    <%= f.label :content, '内容' %>
+    <%= f.text_area :content, class: 'form-control' %>
+    <br>
+    <%= f.label :all_day, '終日' %>
+    <%= f.check_box :all_day, class: 'form-control' %>
+    <br>
+    <%= f.label :start_date, '開始日時' %>
+    <%= f.text_field :start_date, type: 'date', class: 'form-control' %>
+    <%= f.text_field :start_time, type: 'time', class: 'form-control', 
+        value: time_format(f.object.start_time)
+    %>
+    <br>
+    <%= f.label :end_date, '終了日時' %>
+    <%= f.text_field :end_date, type: 'date', class: 'form-control' %>
+    <%= f.text_field :end_time, type: 'time', class: 'form-control', 
+        value: time_format(f.object.end_time)
+    %>
+    <br>
+    <%= f.submit yield(:button_text), class: 'btn btn-primary' %>
+<% end %>

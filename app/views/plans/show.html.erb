@@ -1,0 +1,16 @@
+<h1>予定詳細</h1>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    タイトル:<%= @plan.title %><br>
+    内容:<%= @plan.content %><br>
+    日時:   
+      <% if @plan.all_day %>
+        <%= @plan.start_date.strftime('%Y/%m/%d') %> - <%= @plan.end_date.strftime('%Y/%m/%d') %> (終日)
+      <% else %>
+        <%= @plan.start_date.strftime('%Y/%m/%d') %> <%= @plan.start_time.strftime('%H:%M') %>
+        -
+        <%= @plan.end_date.strftime('%Y/%m/%d') %> <%= @plan.end_time.strftime('%H:%M') %>
+      <% end %><br>
+  </div>
+  <%= link_to '編集', edit_plan_path %>
+</div>
