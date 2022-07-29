@@ -13,7 +13,13 @@ ja:
         title: タイトル
         content: 内容
         all_day: 終日
-        start_datetime: 開始日時
-        end_datetime: 終了日時
+        start_date: 開始日
+        start_date_before_type_cast: 開始日
+        start_time: 開始時刻
+        start_time_before_type_cast: 開始時刻
+        end_date: 終了日
+        end_date_before_type_cast: 終了日
+        end_time: 終了時刻
+        end_time_before_type_cast: 終了時刻
         actual_time: 実績時間
         done: 実施済

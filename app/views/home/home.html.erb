@@ -1,6 +1,47 @@
 <% if logged_in? %>
   <div>
     <p>ログイン済</p>
+    <%= link_to '予定登録', new_plan_path %>
+    <br><br>
+    予定
+    <script>
+      function plan_del(id) {
+        var form = document.createElement('form')
+        form.action = '/plans/' + id;
+        form.method = 'post';
+        var method_input = document.createElement('input');
+        method_input.setAttribute('name', '_method');
+        method_input.setAttribute('value', 'delete');
+        method_input.setAttribute('type', 'hidden');
+        form.appendChild(method_input);
+        document.body.appendChild(form);
+        form.submit();
+      }
+    </script>
+    <ul>
+      <% @plans.each do |plan| %>
+        <li>
+          <%= link_to nil_title_convert(plan.title), plan %>
+          <%=
+            button_tag '編集', type: 'button', onclick: "location.href='#{edit_plan_path(plan)}'"
+          %>
+          <%=
+            button_tag '削除', type: 'button', onclick: "plan_del(#{plan.id})"
+          %>
+        </li>
+        <ul>
+          <li>
+            <% if plan.all_day %>
+              <%= plan.start_date.strftime('%Y/%m/%d') %> - <%= plan.end_date.strftime('%Y/%m/%d') %> (終日)
+            <% else %>
+              <%= plan.start_date.strftime('%Y/%m/%d') %> <%= plan.start_time.strftime('%H:%M') %>
+              -
+              <%= plan.end_date.strftime('%Y/%m/%d') %> <%= plan.end_time.strftime('%H:%M') %>
+            <% end %>
+          </li>
+        </ul>
+      <% end %>
+    </ul>
   </div>
 <% else %>
   <div>
