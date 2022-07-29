@@ -60,4 +60,7 @@ workflows:
             - build
           filters:
             branches:
-              only: master
+              only: issue50-deploy-migrate
+          post-steps:
+            - run: 'bundle exec rails db:migrate'
+
