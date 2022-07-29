@@ -60,7 +60,7 @@ workflows:
             - build
           filters:
             branches:
-              only: issue50-deploy-migrate
+              only: master
           post-steps:
             - run: 'heroku run --app $HEROKU_APP_NAME bundle exec rails db:migrate'
 
