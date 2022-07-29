@@ -61,3 +61,6 @@ workflows:
           filters:
             branches:
               only: master
+          post-steps:
+            - run: 'heroku run --app $HEROKU_APP_NAME bundle exec rails db:migrate'
+
