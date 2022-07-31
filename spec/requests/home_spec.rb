@@ -28,6 +28,7 @@ RSpec.describe 'home', type: :request do
       expect(response.body).to_not include('新規登録</a>')
       expect(response.body).to_not include('ゲストログイン</a>')
       expect(response.body).to include('プロフィール</a>')
+      expect(response.body).to include('ログアウト</a>')
       expect(response.body).to include('予定')
       expect(response.body).to include(plan.title)
       expect(response.body).to include(plan.start_date.strftime('%Y/%m/%d'))
