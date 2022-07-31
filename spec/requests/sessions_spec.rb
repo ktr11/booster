@@ -40,4 +40,16 @@ RSpec.describe 'Sessions', type: :request do
       expect(response.body).to_not include('ログイン済')
     end
   end
+  describe 'GET /logout/' do
+    it 'ログアウトできる' do
+      login_as(user)
+      get '/'
+      expect(response.body).to include('ログイン済')
+      get '/logout/'
+      expect(response).to have_http_status(302)
+      is_expected.to redirect_to('/')
+      get '/'
+      expect(response.body).not_to include('ログイン済')
+    end
+  end
 end
