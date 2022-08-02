@@ -18,6 +18,7 @@ RSpec.describe 'Plans', type: :request do
   # 予定登録画面初期表示
   describe 'GET /plans/new' do
     it '200になり想定どおりの文字列が含まれる' do
+      login_as(create(:user))
       get '/plans/new'
       expect(response).to have_http_status(200)
       expect(response.body).to include('タイトル')
@@ -25,6 +26,11 @@ RSpec.describe 'Plans', type: :request do
       expect(response.body).to include('終日')
       expect(response.body).to include('開始日時')
       expect(response.body).to include('終了日時')
+    end
+    it '未ログイン時はログイン画面にリダイレクト' do
+      get '/plans/new'
+      expect(response).to redirect_to(login_url)
+      expect(response).to have_http_status(302)
     end
   end
   # 予定登録処理
@@ -208,6 +214,11 @@ RSpec.describe 'Plans', type: :request do
       expect(response.body).to include('終了日時は開始日時より後に設定してください')
       expect(plan_count).to eq Plan.count
     end
+    it '未ログイン時はログイン画面にリダイレクト' do
+      post '/plans', params: { plan: plan_params }
+      expect(response).to redirect_to(login_url)
+      expect(response).to have_http_status(302)
+    end
     # 予定更新
     describe 'PATCH /plans/plan.id' do
       it '予定を更新できる' do
@@ -255,6 +266,13 @@ RSpec.describe 'Plans', type: :request do
         expect(plan.end_time).to eq nil
         expect(plan.all_day).to eq true
       end
+      it '未ログイン時はログイン画面にリダイレクト' do
+        user = create(:user)
+        plan = create(:plan, user: user)
+        patch "/plans/#{plan.id}", params: { plan: plan_params }
+        expect(response).to redirect_to(login_url)
+        expect(response).to have_http_status(302)
+      end
     end
     # 予定詳細
     describe 'GET /plans/plan.id' do
@@ -295,6 +313,13 @@ RSpec.describe 'Plans', type: :request do
         expect(response.body).to include(plan.end_date.strftime('%Y-%m-%d'))
         expect(response.body).to include(plan.end_time.strftime('%H:%M'))
       end
+      it '未ログイン時はログイン画面にリダイレクト' do
+        user = create(:user)
+        plan = create(:plan, user: user)
+        get "/plans/#{plan.id}/edit"
+        expect(response).to redirect_to(login_url)
+        expect(response).to have_http_status(302)
+      end
     end
     # 予定削除
     describe 'DELETE /plans/plan.id' do
@@ -307,6 +332,13 @@ RSpec.describe 'Plans', type: :request do
         expect(response).to have_http_status(302)
         expect(response).to redirect_to('/')
         expect(plan_count - 1).to eq Plan.count
+      end
+      it '未ログイン時はログイン画面にリダイレクト' do
+        user = create(:user)
+        plan = create(:plan, user: user)
+        delete "/plans/#{plan.id}"
+        expect(response).to redirect_to(login_url)
+        expect(response).to have_http_status(302)
       end
     end
   end

@@ -2,6 +2,8 @@
 
 # 予定登録、編集処理のcontroller
 class PlansController < ApplicationController
+  before_action :logged_in_user, only: %i[new create edit update destroy]
+
   # 予定登録画面の初期表示
   def new
     @plan = Plan.new
