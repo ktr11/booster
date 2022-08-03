@@ -2,7 +2,7 @@
 
 # 予定登録、編集処理のcontroller
 class PlansController < ApplicationController
-  before_action :logged_in_user, only: %i[new create edit update destroy]
+  before_action :logged_in_user, only: %i[new create edit update destroy done]
 
   # 予定登録画面の初期表示
   def new
@@ -49,10 +49,26 @@ class PlansController < ApplicationController
     redirect_to root_path
   end
 
+  # 予定完了
+  def done
+    @plan = Plan.find(params[:id])
+    if @plan.update(plan_params_done)
+      flash[:success] = '予定を完了しました。' if @plan.done
+      redirect_to @plan
+    else
+      render 'show'
+    end
+  end
+
   private
 
-  # パラメータの制限処理
+  # パラメータの制限処理(登録、更新時)
   def plan_params
     params.require(:plan).permit(:title, :content, :all_day, :start_date, :start_time, :end_date, :end_time)
+  end
+
+  # パラメータの制限処理(完了更新時)
+  def plan_params_done
+    params.require(:plan).permit(:done, :actual_time)
   end
 end
