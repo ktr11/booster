@@ -73,4 +73,45 @@ RSpec.describe Plan, type: :model do
     plan.end_time = nil
     expect(plan).to be_valid
   end
+
+  # 実績時間のバリデーション
+  it 'doneがtrueならば、実績時間は必須' do
+    plan = build(:plan)
+    plan.done = true
+    plan.actual_time = nil
+    expect(plan).to be_invalid
+  end
+  it '実績時間が数値でなければ、登録NG' do
+    plan = build(:plan)
+    plan.done = true
+    plan.actual_time = 'a'
+    expect(plan).to be_invalid
+  end
+  it '実績時間がマイナスであれば、登録NG' do
+    plan = build(:plan)
+    plan.done = true
+    plan.actual_time = '-60'
+    expect(plan).to be_invalid
+  end
+  it '実績時間が小数であれば、登録NG' do
+    plan = build(:plan)
+    plan.done = true
+    plan.actual_time = '5.5'
+    expect(plan).to be_invalid
+  end
+  it '実績時間が0であれば、登録OK' do
+    plan = build(:plan)
+    plan.done = true
+    plan.actual_time = '0'
+    expect(plan).to be_valid
+  end
+
+  it 'doneがfalseであれば、 実績時間はnil' do
+    plan = create(:plan, done: true)
+    plan.done = false
+    plan.actual_time = '1'
+    plan.save
+    plan_after = Plan.find(plan.id)
+    expect(plan_after.actual_time).to eq nil
+  end
 end

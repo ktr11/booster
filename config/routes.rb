@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   post '/login/create', to: 'sessions#create'
   get '/signup', to: 'users#new'
   post '/signup', to: 'users#create'
+  patch '/plans/:id/done', to: 'plans#done'
   resources :users
   resources :plans
 end
